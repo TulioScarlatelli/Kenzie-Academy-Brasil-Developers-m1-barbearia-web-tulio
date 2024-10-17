@@ -15,31 +15,90 @@ const barbearia = {
         { id: 5, tipo: "Barba Zero", valor: 15 },
     ],
     estaAberto: true,
-};
+  };
   
   
-function buscaCortePorId(id) {
-}
-
-function buscaBarbaPorId(id) {
-}
-
-function verificaStatusBarbearia() {
-}
-
-function retornaTodosCortes() {
-}
-
-function retornaTodasBarbas() {
-}
-
-function criaPedido(nomeCliente, corteId, barbaId) {
-}
-
-function atualizarServico(lista, id, valor, tipo) {
-}
-
-function calculaTotal(pedido) {
-}
+  function buscaCortePorId(id) {
+    for (let i = 0; i < barbearia.cortes.length; i++){
+        if (id === barbearia.cortes[i].id){
+            return barbearia.cortes[i];
+        } 
+    }
+    return "Corte não encontrado";
+  }
   
+  function buscaBarbaPorId(id) {
+    for (let i = 0; i < barbearia.barbas.length; i++){
+        if (id === barbearia.barbas[i].id){
+            return barbearia.barbas[i];
+        }
+    }
+    return "Barba não encontrada";
+  }
   
+  function verificaStatusBarbearia() {
+    if (barbearia.estaAberto){  
+        return "Estamos abertos";
+    } 
+    return "Estamos fechados";
+  }
+  
+  function retornaTodosCortes() {
+    return barbearia.cortes
+  }
+  
+  function retornaTodasBarbas() {
+    return barbearia.barbas
+  }
+  
+  function criaPedido(nomeCliente, corteId, barbaId) {
+  
+    let pedido = {
+        nome: nomeCliente,
+        pedidoCorte: "",
+        pedidoCortePreco: 0,
+        pedidoBarba: "",
+        pedidoBarbaPreco: 0,
+    };
+  
+    let cortePedido = buscaCortePorId(corteId);
+  
+    if (cortePedido){
+        pedido.pedidoCorte = cortePedido.tipo;
+        pedido.pedidoCortePreco = cortePedido.valor;
+    }
+  
+    let barbaPedida = buscaBarbaPorId(barbaId);
+    
+    if (barbaPedida){
+        pedido.pedidoBarba = barbaPedida.tipo;
+        pedido.pedidoBarbaPreco = barbaPedida.valor;
+    }
+    return pedido;
+  }
+  
+  function atualizarServico(lista, id, valor, tipo) {
+
+    let position = 0;
+
+    for (let i = 0; lista.length; i++){
+
+        if (id === lista[i].id){
+
+            position = i
+            break
+        }
+    }
+
+    let atualizacao = {id, valor, tipo};
+
+    lista [position] = atualizacao
+
+    return lista
+
+  }
+  
+  function calculaTotal(pedido) {
+    let resultado = pedido.pedidoCortePreco + pedido.pedidoBarbaPreco;
+    return resultado;
+  }
